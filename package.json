@@ -1,0 +1,27 @@
+{
+  "name": "@tchomb/upload",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yaamwebsolutions/tchomb-upload.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@tchomb/shared-types": "*"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  }
+}
