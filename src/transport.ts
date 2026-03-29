@@ -11,7 +11,8 @@ export function createUploader({ getAuthHeaders, baseUrl }: UploadAdapter) {
     caption: string,
     language: string,
     mediaType: 'video' | 'image',
-    onProgress?: (pct: number) => void
+    onProgress?: (pct: number) => void,
+    thumbnailUri?: string
   ): Promise<UploadResult> {
     const headers = await getAuthHeaders();
 
@@ -31,6 +32,16 @@ export function createUploader({ getAuthHeaders, baseUrl }: UploadAdapter) {
     formData.append('caption', caption);
     formData.append('language', language);
     formData.append('media_type', mediaType);
+
+    // Attach thumbnail for video uploads
+    if (thumbnailUri && !isImage) {
+      const thumbExt = thumbnailUri.split('.').pop()?.toLowerCase() ?? 'jpg';
+      formData.append('thumbnail', {
+        uri: thumbnailUri,
+        name: `thumbnail.${thumbExt}`,
+        type: thumbExt === 'png' ? 'image/png' : 'image/jpeg',
+      } as unknown as Blob);
+    }
 
     return new Promise<UploadResult>((resolve, reject) => {
       const xhr = new XMLHttpRequest();
